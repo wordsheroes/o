@@ -14,20 +14,35 @@ body{
     background:#d9ecff;
 }
 
-.topbar{
+/* LOGIN */
+#loginBox{
+    text-align:center;
+    margin-top:120px;
+}
+
+input{
+    width:80%;
+    max-width:300px;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+button{
+    width:80%;
+    max-width:300px;
+    padding:12px;
+    margin-top:10px;
     background:#2b6cb0;
     color:white;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:26px;
+    border:none;
+    border-radius:6px;
     font-weight:bold;
+    cursor:pointer;
 }
 
+/* PANEL */
 .container{
     max-width:900px;
     margin:auto;
@@ -39,27 +54,6 @@ body{
     padding:20px;
     border-radius:10px;
     box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-input,textarea{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    box-sizing:border-box;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    margin-top:12px;
-    background:#2b6cb0;
-    color:white;
-    border:none;
-    border-radius:6px;
-    font-weight:bold;
-    cursor:pointer;
 }
 
 .item{
@@ -77,12 +71,11 @@ button{
     border-radius:10px;
 }
 
-.edit{
-    background:orange;
-}
+.edit{background:orange;}
+.del{background:red;}
 
-.del{
-    background:red;
+button.action{
+    width:100%;
 }
 
 </style>
@@ -90,15 +83,20 @@ button{
 
 <body>
 
-<div class="topbar">
+<!-- LOGIN -->
+<div id="loginBox">
 
-<div class="logo">ADMIN PANEL</div>
+<h2>Admin Login</h2>
 
-<button onclick="location.href='index.html'">
-HOME
-</button>
+<input id="adminUser" placeholder="Username">
+<input id="adminPass" type="password" placeholder="Password">
+
+<button onclick="login()">LOGIN</button>
 
 </div>
+
+<!-- PANEL -->
+<div id="panel" style="display:none;">
 
 <div class="container">
 
@@ -127,7 +125,23 @@ HOME
 
 </div>
 
+</div>
+
 <script>
+
+function login(){
+
+if(
+adminUser.value === "admin" &&
+adminPass.value === "1234"
+){
+loginBox.style.display="none";
+panel.style.display="block";
+}else{
+alert("Wrong login");
+}
+
+}
 
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 let editIndex = null;
@@ -138,7 +152,7 @@ localStorage.setItem("cars",JSON.stringify(cars));
 
 function addCar(){
 
-const files = document.getElementById("imgs").files;
+const files = imgs.files;
 
 function finish(images){
 
@@ -170,22 +184,19 @@ clear();
 
 if(files.length > 0){
 
-let images = [];
-let done = 0;
+let images=[];
+let done=0;
 
 for(let f of files){
 
-let reader = new FileReader();
+let reader=new FileReader();
 
-reader.onload = (e)=>{
-
+reader.onload=(e)=>{
 images.push(e.target.result);
 done++;
-
-if(done === files.length){
+if(done===files.length){
 finish(images);
 }
-
 };
 
 reader.readAsDataURL(f);
@@ -202,17 +213,17 @@ finish([]);
 
 function load(){
 
-list.innerHTML = "";
+list.innerHTML="";
 
 cars.forEach((c,i)=>{
 
-list.innerHTML += `
+list.innerHTML+=`
 <div class="item">
 
 <img src="${c.images?.[0] || ''}">
 
-<h3>${c.name}</h3>
-<p>${c.price}</p>
+<h3>${c.name || ''}</h3>
+<p>${c.price || ''}</p>
 
 <button class="edit" onclick="editCar(${i})">EDIT</button>
 <button class="del" onclick="deleteCar(${i})">DELETE</button>
