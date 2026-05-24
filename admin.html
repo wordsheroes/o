@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#d9ecff;
+}
+
+.topbar{
+    background:#2b6cb0;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    background:#2b6cb0;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.item{
+    background:white;
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.item img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.edit{
+    background:orange;
+}
+
+.del{
+    background:red;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="logo">ADMIN PANEL</div>
+
+<button onclick="location.href='index.html'">
+HOME
+</button>
+
+</div>
+
+<div class="container">
+
+<div class="panel">
+
+<h2>Add / Edit Car</h2>
+
+<input id="name" placeholder="Car Name">
+<input id="price" placeholder="Price">
+<textarea id="desc" placeholder="Description"></textarea>
+
+<input id="year" placeholder="Year">
+<input id="condition" placeholder="Condition">
+<input id="seats" placeholder="Seats">
+<input id="engine" placeholder="Engine">
+<input id="mileage" placeholder="Mileage">
+<input id="color" placeholder="Color">
+
+<input type="file" id="imgs" multiple accept="image/*">
+
+<button onclick="addCar()">ADD / UPDATE</button>
+
+</div>
+
+<div id="list"></div>
+
+</div>
+
+<script>
+
+let cars = JSON.parse(localStorage.getItem("cars")) || [];
+let editIndex = null;
+
+function save(){
+localStorage.setItem("cars",JSON.stringify(cars));
+}
+
+function addCar(){
+
+const files = document.getElementById("imgs").files;
+
+function finish(images){
+
+const car = {
+name:name.value,
+price:price.value,
+description:desc.value,
+year:year.value,
+condition:condition.value,
+seats:seats.value,
+engine:engine.value,
+mileage:mileage.value,
+color:color.value,
+images:images
+};
+
+if(editIndex === null){
+cars.push(car);
+}else{
+cars[editIndex] = car;
+editIndex = null;
+}
+
+save();
+load();
+clear();
+
+}
+
+if(files.length > 0){
+
+let images = [];
+let done = 0;
+
+for(let f of files){
+
+let reader = new FileReader();
+
+reader.onload = (e)=>{
+
+images.push(e.target.result);
+done++;
+
+if(done === files.length){
+finish(images);
+}
+
+};
+
+reader.readAsDataURL(f);
+
+}
+
+}else{
+
+finish([]);
+
+}
+
+}
+
+function load(){
+
+list.innerHTML = "";
+
+cars.forEach((c,i)=>{
+
+list.innerHTML += `
+<div class="item">
+
+<img src="${c.images?.[0] || ''}">
+
+<h3>${c.name}</h3>
+<p>${c.price}</p>
+
+<button class="edit" onclick="editCar(${i})">EDIT</button>
+<button class="del" onclick="deleteCar(${i})">DELETE</button>
+
+</div>
+`;
+
+});
+
+}
+
+function editCar(i){
+
+let c = cars[i];
+
+name.value = c.name;
+price.value = c.price;
+desc.value = c.description;
+year.value = c.year;
+condition.value = c.condition;
+seats.value = c.seats;
+engine.value = c.engine;
+mileage.value = c.mileage;
+color.value = c.color;
+
+editIndex = i;
+
+}
+
+function deleteCar(i){
+cars.splice(i,1);
+save();
+load();
+}
+
+function clear(){
+
+name.value="";
+price.value="";
+desc.value="";
+year.value="";
+condition.value="";
+seats.value="";
+engine.value="";
+mileage.value="";
+color.value="";
+imgs.value="";
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
