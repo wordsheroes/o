@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Admin Panel</title>
-
+<title>لوحة التحكم | الإدارة</title>
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body{
     margin:0;
-    font-family:Arial;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background:#d9ecff;
+    overflow-x: hidden;
 }
 
 .topbar{
     background:#2b6cb0;
     color:white;
-    padding:15px;
+    padding:15px 25px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
 .logo{
-    font-size:26px;
+    font-size:24px;
     font-weight:bold;
 }
 
@@ -35,7 +38,7 @@ body{
 
 .panel{
     background:white;
-    padding:20px;
+    padding:25px;
     border-radius:10px;
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
@@ -43,10 +46,10 @@ body{
 input,textarea{
     width:100%;
     padding:12px;
-    margin-top:10px;
+    margin-top:12px;
     border:1px solid #ccc;
     border-radius:6px;
-    box-sizing:border-box;
+    font-family: inherit;
 }
 
 button{
@@ -76,15 +79,9 @@ button{
     border-radius:10px;
 }
 
-.edit{
-    background:orange;
-}
+.edit{ background:orange; }
+.del{ background:red; }
 
-.del{
-    background:red;
-}
-
-/* ستايل شاشة تسجيل الدخول */
 #loginScreen {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -95,58 +92,57 @@ button{
     z-index: 1000;
 }
 #loginScreen .panel {
-    width: 300px;
+    width: 320px;
     text-align: center;
 }
 </style>
 </head>
-
 <body>
 
 <div id="loginScreen">
     <div class="panel">
-        <h2>تسجيل الدخول للإدارة</h2>
+        <h2 style="color:#2b6cb0;">تسجيل الدخول</h2>
         <input id="adminUser" placeholder="اسم المستخدم">
         <input id="adminPass" type="password" placeholder="كلمة المرور">
-        <button onclick="login()">دخول</button>
+        <button onclick="login()">تسجيل الدخول</button>
     </div>
 </div>
 
 <div class="topbar">
-    <div class="logo">ADMIN PANEL</div>
-    <button onclick="location.href='index.html'" style="width:auto; margin:0;">HOME</button>
+    <div class="logo">لوحة الإدارة</div>
+    <button onclick="location.href='index.html'" style="width:auto; margin:0; padding: 10px 20px;">الرئيسية</button>
 </div>
 
 <div class="container">
     <div class="panel">
-        <h2>Add / Edit Car</h2>
-        <input id="carName" placeholder="Car Name">
-        <input id="price" placeholder="Price">
-        <textarea id="desc" placeholder="Description"></textarea>
+        <h2 style="margin-top:0; color:#2b6cb0;">إضافة / تعديل سيارة</h2>
+        
+        <input id="carName" placeholder="اسم السيارة">
+        <input id="price" placeholder="السعر (اكتب الرقم فقط، مثلاً: 50000)">
+        <textarea id="desc" placeholder="وصف السيارة" rows="3"></textarea>
 
-        <input id="year" placeholder="Year">
-        <input id="condition" placeholder="Condition">
-        <input id="seats" placeholder="Seats">
-        <input id="engine" placeholder="Engine">
-        <input id="mileage" placeholder="Mileage">
-        <input id="color" placeholder="Color">
+        <input id="year" placeholder="سنة الصنع">
+        <input id="condition" placeholder="الحالة (جديدة / مستعملة)">
+        <input id="seats" placeholder="عدد المقاعد">
+        <input id="engine" placeholder="المحرك (مثال: V8 5.0L)">
+        <input id="mileage" placeholder="المسافة المقطوعة (كم)">
+        <input id="color" placeholder="اللون">
 
-        <input type="file" id="imgs" multiple accept="image/*">
-        <button onclick="addCar()">ADD / UPDATE</button>
+        <input type="file" id="imgs" multiple accept="image/*" style="padding: 10px 0;">
+        <button onclick="addCar()">إضافة / تحديث البيانات</button>
     </div>
 
     <div id="list"></div>
 </div>
 
 <script>
-// التحقق من تسجيل الدخول
 function login() {
     let user = document.getElementById("adminUser").value;
     let pass = document.getElementById("adminPass").value;
     if(user === "admin" && pass === "1234") {
         document.getElementById("loginScreen").style.display = "none";
     } else {
-        alert("الاسم أو الرقم السري خاطئ!");
+        alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
     }
 }
 
@@ -177,7 +173,6 @@ function addCar(){
         if(editIndex === null){
             cars.push(car);
         }else{
-            // الاحتفاظ بالصور القديمة إذا لم يتم رفع صور جديدة أثناء التعديل
             if(images.length === 0 && cars[editIndex].images) {
                 car.images = cars[editIndex].images;
             }
@@ -214,9 +209,9 @@ function load(){
         <div class="item">
             <img src="${c.images?.[0] || ''}">
             <h3>${c.name}</h3>
-            <p>${c.price}</p>
-            <button class="edit" onclick="editCar(${i})">EDIT</button>
-            <button class="del" onclick="deleteCar(${i})">DELETE</button>
+            <p style="font-weight:bold; color:#2b6cb0;">${c.price ? c.price + " درهم" : ""}</p>
+            <button class="edit" onclick="editCar(${i})">تعديل السيارة</button>
+            <button class="del" onclick="deleteCar(${i})">حذف السيارة</button>
         </div>
         `;
     });
@@ -234,10 +229,11 @@ function editCar(i){
     document.getElementById("mileage").value = c.mileage;
     document.getElementById("color").value = c.color;
     editIndex = i;
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // الصعود للأعلى عند التعديل
 }
 
 function deleteCar(i){
-    if(confirm("هل أنت متأكد من حذف هذه السيارة؟")) {
+    if(confirm("هل أنت متأكد من حذف هذه السيارة بشكل نهائي؟")) {
         cars.splice(i,1);
         save();
         load();
