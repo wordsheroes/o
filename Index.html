@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eyefind Autos</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#d9ecff;
+}
+
+.topbar{
+    background:#2b6cb0;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.admin-btn{
+    background:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    padding:20px;
+}
+
+.banner{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.banner h1{
+    color:#2b6cb0;
+}
+
+.cards{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:15px;
+}
+
+.card-content h3{
+    margin:0;
+    color:#2b6cb0;
+}
+
+.price{
+    margin-top:10px;
+    font-weight:bold;
+    color:#333;
+}
+
+.view-btn{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    background:#2b6cb0;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:40px;
+    text-align:center;
+    padding:20px;
+    color:#2b6cb0;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+    <div class="logo">
+        eyefind.info
+    </div>
+
+    <button class="admin-btn"
+    onclick="window.location.href='admin.html'">
+        ADMIN
+    </button>
+
+</div>
+
+<div class="container">
+
+<div class="banner">
+
+    <h1>WELCOME TO EYEFIND AUTOS</h1>
+
+    <p>
+        The best marketplace for luxury cars
+    </p>
+
+</div>
+
+<div class="cards"
+id="carsContainer">
+
+</div>
+
+<div class="footer">
+    Copyright © 2026 eyefind.info
+</div>
+
+</div>
+
+<script>
+
+const cars =
+JSON.parse(localStorage.getItem("cars")) || [];
+
+const container =
+document.getElementById("carsContainer");
+
+function loadCars(){
+
+    container.innerHTML = "";
+
+    cars.forEach((car,index)=>{
+
+        const card =
+        document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+            <img src="${car.image}">
+
+            <div class="card-content">
+
+                <h3>${car.name}</h3>
+
+                <div class="price">
+                    ${car.price}
+                </div>
+
+                <button class="view-btn"
+                onclick="openCar(${index})">
+
+                    VIEW DETAILS
+
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+function openCar(index){
+
+    localStorage.setItem(
+        "selectedCar",
+        index
+    );
+
+    window.location.href =
+    "car.html";
+
+}
+
+loadCars();
+
+</script>
+
+</body>
+  </html>
