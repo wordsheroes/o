@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,250 +7,213 @@
 <title>Car Details</title>
 
 <style>
-
-body{
-    margin:0;
-    font-family:Arial;
-    background:#d9ecff;
-    color:#333;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #d9ecff;
+    color: #333;
 }
 
-.topbar{
-    background:#2b6cb0;
-    color:white;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.topbar {
+    background: #2b6cb0;
+    padding: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.logo{
-    color:white;
-    text-decoration:none;
-    font-size:24px;
-    font-weight:bold;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
 }
 
-.container{
-    max-width:900px;
-    margin:30px auto;
-    background:white;
-    border-radius:15px;
-    padding:20px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+.product-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-@media(max-width:768px){
-.container{
-    grid-template-columns:1fr;
-    margin:10px;
-}
-}
-
-/* MAIN IMAGE */
-.main-image{
-    width:100%;
-    height:260px;
-    object-fit:cover;
-    border-radius:10px;
+@media (max-width: 768px) {
+    .product-container {
+        grid-template-columns: 1fr;
+        margin: 10px;
+    }
 }
 
-/* THUMBS */
-.thumbs{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    margin-top:10px;
+.main-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.thumbs img{
-    width:65px;
-    height:50px;
-    object-fit:cover;
-    border-radius:6px;
-    cursor:pointer;
-    border:2px solid transparent;
-    flex-shrink:0;
+.thumbs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-top: 10px;
 }
 
-.thumbs img.active{
-    border-color:#2b6cb0;
+.thumbs img {
+    width: 65px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    flex-shrink: 0;
 }
 
-/* INFO */
-h1{
-    margin:0;
-    color:#2b6cb0;
+.thumbs img.active {
+    border-color: #2b6cb0;
 }
 
-.price{
-    font-size:22px;
-    font-weight:bold;
-    color:#2b6cb0;
-    margin:10px 0;
-    background:#f0f7ff;
-    display:inline-block;
-    padding:8px 12px;
-    border-radius:6px;
+.product-info h1 {
+    color: #2b6cb0;
+    margin: 0;
 }
 
-.desc{
-    font-size:14px;
-    color:#666;
-    margin-bottom:10px;
-    line-height:1.5;
+.price-tag {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2b6cb0;
+    margin: 10px 0;
+    padding: 8px 12px;
+    background: #f0f7ff;
+    display: inline-block;
+    border-radius: 6px;
 }
 
-/* TABLE */
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:14px;
+.description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 10px;
 }
 
-td{
-    padding:10px 0;
-    border-bottom:1px solid #eee;
+.specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
 }
 
-td:first-child{
-    font-weight:bold;
-    color:#2b6cb0;
+.specs-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
-/* BUTTONS */
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
+.specs-table td:first-child {
+    font-weight: bold;
+    color: #2b6cb0;
 }
 
-.btn{
-    flex:1;
-    padding:12px;
-    border-radius:8px;
-    text-align:center;
-    text-decoration:none;
-    font-weight:bold;
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.contact{
-    background:#2b6cb0;
-    color:white;
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.back{
-    background:#f5c542;
-    color:#333;
+.contact {
+    background: #2b6cb0;
+    color: white;
 }
 
+.back {
+    background: #f5c542;
+    color: #333;
+}
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
+<header class="topbar">
+    <a class="logo" href="index.html">eyefind.info</a>
+    <span>Car Details</span>
+</header>
 
-<a class="logo" href="index.html">eyefind.info</a>
+<main class="product-container">
+    <div>
+        <img id="mainImg" class="main-image">
+        <div class="thumbs" id="thumbs"></div>
+    </div>
 
-<span>Car Details</span>
+    <div class="product-info">
+        <h1 id="carName"></h1>
+        <div class="price-tag" id="price"></div>
+        <p class="description" id="desc"></p>
 
-</div>
+        <table class="specs-table">
+            <tr><td>Année Modèle</td><td id="year"></td></tr>
+            <tr><td>État</td><td id="condition"></td></tr>
+            <tr><td>Places</td><td id="seats"></td></tr>
+            <tr><td>Moteur</td><td id="engine"></td></tr>
+            <tr><td>Kilométrage</td><td id="mileage"></td></tr>
+            <tr><td>Couleur</td><td id="color"></td></tr>
+        </table>
 
-<div class="container">
-
-<div>
-
-<img id="mainImg" class="main-image">
-
-<div class="thumbs" id="thumbs"></div>
-
-</div>
-
-<div>
-
-<h1 id="name"></h1>
-
-<div class="price" id="price"></div>
-
-<p class="desc" id="desc"></p>
-
-<table>
-
-<tr><td>Year</td><td id="year"></td></tr>
-<tr><td>Condition</td><td id="condition"></td></tr>
-<tr><td>Seats</td><td id="seats"></td></tr>
-<tr><td>Engine</td><td id="engine"></td></tr>
-<tr><td>Mileage</td><td id="mileage"></td></tr>
-<tr><td>Color</td><td id="color"></td></tr>
-
-</table>
-
-<div class="actions">
-
-<a class="btn contact" href="mailto:contact@cars.com">CONTACT</a>
-<a class="btn back" href="index.html">BACK</a>
-
-</div>
-
-</div>
-
-</div>
+        <div class="actions">
+            <a href="mailto:contact@yoursite.com" class="btn contact">CONTACT</a>
+            <a href="index.html" class="btn back">BACK</a>
+        </div>
+    </div>
+</main>
 
 <script>
-
 let cars = JSON.parse(localStorage.getItem("cars")) || [];
 let i = localStorage.getItem("selectedCar");
 let car = cars[i];
 
 if(car){
+    // استخدام document.getElementById لضمان عدم التعارض
+    document.getElementById("carName").innerText = car.name;
+    document.getElementById("price").innerText = car.price;
+    document.getElementById("desc").innerText = car.description;
+    
+    document.getElementById("year").innerText = car.year;
+    document.getElementById("condition").innerText = car.condition;
+    document.getElementById("seats").innerText = car.seats;
+    document.getElementById("engine").innerText = car.engine;
+    document.getElementById("mileage").innerText = car.mileage;
+    document.getElementById("color").innerText = car.color;
 
-name.innerText = car.name;
-price.innerText = car.price;
-desc.innerText = car.description;
+    const mainImg = document.getElementById("mainImg");
+    mainImg.src = car.images?.[0] || "";
 
-year.innerText = car.year;
-condition.innerText = car.condition;
-seats.innerText = car.seats;
-engine.innerText = car.engine;
-mileage.innerText = car.mileage;
-color.innerText = car.color;
+    let thumbs = document.getElementById("thumbs");
 
-/* MAIN IMAGE */
-mainImg.src = car.images?.[0] || "";
+    (car.images || []).forEach((img, idx)=>{
+        let t = document.createElement("img");
+        t.src = img;
+        if(idx === 0) t.classList.add("active");
 
-/* THUMBS */
-let thumbs = document.getElementById("thumbs");
-thumbs.innerHTML = "";
-
-(car.images || []).forEach((img,idx)=>{
-
-let t = document.createElement("img");
-t.src = img;
-
-if(idx === 0) t.classList.add("active");
-
-t.onclick = ()=>{
-
-mainImg.src = img;
-
-document.querySelectorAll(".thumbs img")
-.forEach(x=>x.classList.remove("active"));
-
-t.classList.add("active");
-
-};
-
-thumbs.appendChild(t);
-
-});
-
+        t.onclick = () => {
+            mainImg.src = img;
+            document.querySelectorAll(".thumbs img").forEach(x => x.classList.remove("active"));
+            t.classList.add("active");
+        };
+        thumbs.appendChild(t);
+    });
 }
-
 </script>
-
 </body>
 </html>
