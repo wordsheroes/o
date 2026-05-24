@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Eyefind Autos</title>
-
 <style>
-body{
+* {
+    box-sizing: border-box;
+}
+
+body {
     margin:0;
     font-family:Arial;
     background:#d9ecff;
+    overflow-x: hidden;
 }
 
 .topbar{
@@ -29,6 +32,8 @@ body{
 
 .container{
     padding:20px;
+    max-width: 1200px;
+    margin: auto;
 }
 
 .banner{
@@ -52,21 +57,20 @@ body{
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-/* خصائص شريط تمرير الصور */
 .card-slider {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* إخفاء سكرول بار في فايرفوكس */
+    scrollbar-width: none;
 }
 
 .card-slider::-webkit-scrollbar {
-    display: none; /* إخفاء سكرول بار في كروم وسفاري */
+    display: none;
 }
 
 .card-slider img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
     flex: 0 0 100%;
     scroll-snap-align: start;
@@ -84,6 +88,7 @@ body{
 .price{
     font-weight:bold;
     margin-top:10px;
+    color: #333;
 }
 
 button{
@@ -107,7 +112,6 @@ button{
 }
 </style>
 </head>
-
 <body>
 
 <div class="topbar">
@@ -136,7 +140,6 @@ function load(){
     container.innerHTML = "";
 
     cars.forEach((c,i)=>{
-        // توليد أكواد الصور للمتصفح
         let imagesHTML = '';
         if(c.images && c.images.length > 0) {
             c.images.forEach(imgUrl => {
@@ -151,10 +154,9 @@ function load(){
             <div class="card-slider">
                 ${imagesHTML}
             </div>
-
             <div class="card-content">
                 <h3>${c.name}</h3>
-                <div class="price">${c.price}</div>
+                <div class="price">${c.price ? c.price + " Dh" : ""}</div>
                 <button onclick="openCar(${i})">VIEW DETAILS</button>
             </div>
         </div>
@@ -169,6 +171,5 @@ function openCar(i){
 
 load();
 </script>
-
 </body>
 </html>
